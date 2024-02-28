@@ -60,11 +60,12 @@ for datetime, et in zip(datetimes, ets):
     sub_observer['lat'] = np.append(sub_observer['lat'], lat * 180/np.pi)
     
 #   Initialize figure with extra axis for overplotting lines
-fig, axs = plt.subplots(nrows=2, sharex=True)
+fig, axs = plt.subplots(nrows=2, sharex=True, figsize=(6,2))
 plt.subplots_adjust(hspace=0)
 
 axs[1].set_xlim(start_date, end_date)
 axs[1].set_ylim(0, 360)
+axs[1].set_yticks([0, 90, 180, 270, 360])
 axs[0].set_ylim(0,1)
 
 #   Plot the CML
@@ -79,7 +80,7 @@ chandra_lonrange = (chandra_exptime/jupiter_day) * 360  #  degrees
 buffer_window = (chandra_lonrange - (hotspot_lonrange[1] - hotspot_lonrange[0]))/2.
 hotspot_windows = np.where((sub_observer['lon'] > hotspot_lonrange[0] - buffer_window) & 
                            (sub_observer['lon'] < hotspot_lonrange[1] + buffer_window),
-                           0.5, np.nan)
+                           0.33, np.nan)
 
 axs[0].plot(sub_observer['datetime'], hotspot_windows,
               color='orange', linewidth=5)
@@ -88,9 +89,11 @@ axs[0].plot(sub_observer['datetime'], hotspot_windows,
 #   Juno PJ +/- 10 hours to PJ (maybe +/- 5 hours?)
 juno_uvs_window = [dt.timedelta(hours=-10) , dt.timedelta(hours=+10)]
 for PJ, PJ_datetime in PJs.items():
-    axs[0].plot(PJ_datetime + np.array(juno_uvs_window), [0.25,0.25], 
+    axs[0].plot(PJ_datetime + np.array(juno_uvs_window), [0.66,0.66], 
                   color='blue', linewidth=5)
 
 
-axs[0].set_yticks([0.25, 0.5], ['Perijove', 'Hotspot'])
+axs[0].set_yticks([0.66, 0.33], ['Perijove', 'Hotspot'])
+axs[1].set_xlabel('Date [MM-DD HH]')
+axs[1].set_ylabel('Jovian CML [deg.]')
 
