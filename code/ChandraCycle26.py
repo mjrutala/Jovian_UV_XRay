@@ -61,7 +61,7 @@ for datetime, et in zip(datetimes, ets):
     
 #   Initialize figure with extra axis for overplotting lines
 fig, axs = plt.subplots(nrows=2, sharex=True, figsize=(6,2))
-plt.subplots_adjust(hspace=0)
+
 
 axs[1].set_xlim(start_date, end_date)
 axs[1].set_ylim(0, 360)
@@ -96,4 +96,7 @@ for PJ, PJ_datetime in PJs.items():
 axs[0].set_yticks([0.66, 0.33], ['Perijove', 'Hotspot'])
 axs[1].set_xlabel('Date [MM-DD HH]')
 axs[1].set_ylabel('Jovian CML [deg.]')
+
+plt.tight_layout(h_pad=0)
+#plt.subplots_adjust(hspace=0)
 
